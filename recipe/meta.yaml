@@ -52,7 +52,7 @@ about:
   home: https://developer.nvidia.com/cusparselt
   license: LicenseRef-cuSPARSELt-Software-License-Agreement
   license_url: https://docs.nvidia.com/cuda/cusparselt/license.html
-  license_file: libcusparse_lt/libcusparse_lt/license.pdf
+  license_file: LICENSE.txt
   summary: "Tensor Linear Algebra on NVIDIA GPUs"
   description: |
     NVIDIA cuSPARSELt is a high-performance CUDA library dedicated to general

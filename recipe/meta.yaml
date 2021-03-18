@@ -17,7 +17,7 @@ build:
     - mkdir -p $PREFIX/include                                                # [unix]
     - cp -r include/* $PREFIX/include/                                        # [unix]
     - mkdir -p $PREFIX/lib64                                                  # [unix]
-    - mv lib64/{{ cuda_compiler_version }}/libcusparseLt.so* $PREFIX/lib64/   # [unix]
+    - mv lib64/libcusparseLt.so* $PREFIX/lib64/                               # [unix]
 
   ignore_run_exports_from:
     - {{ compiler('c') }}    # [linux]

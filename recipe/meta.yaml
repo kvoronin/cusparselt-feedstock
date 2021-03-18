@@ -6,7 +6,7 @@ package:
   version: {{ version }}.{{ patch_version }}
 
 source:
-  url: https://developer.download.nvidia.com/compute/libcusparse_lt/{{ version }}/local_installers/libcusparse_lt-linux-x86_64-{{ version }}.{{ patch_version }}.tar.gz   # [linux64]
+  url: https://developer.download.nvidia.com/compute/libcusparse-lt/{{ version }}/local_installers/libcusparse_lt-linux-x86_64-{{ version }}.{{ patch_version }}.tar.gz   # [linux64]
 
   sha256: 63a5a854b2df4477ae48284a23c1b7c7632c23fe418434fa70a2ff8ac238b27e  # [linux64]
 

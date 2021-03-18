@@ -11,7 +11,7 @@ source:
   sha256: 63a5a854b2df4477ae48284a23c1b7c7632c23fe418434fa70a2ff8ac238b27e  # [linux64]
 
 build:
-  number: 0
+  number: 1
   skip: True  # [not linux or cuda_compiler_version != "11.0"]
   script:
     - mkdir -p $PREFIX/include                                                # [unix]
@@ -44,6 +44,15 @@ requirements:
     - __glibc >=2.17      # [linux]
 
 test:
+  requires:
+    - git
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - {{ compiler('cuda') }}
+    - sysroot_linux-64 2.17  # [linux64]
+    # make sure we pick up the version matching the docker,
+    # or the linker would complain
+    - cudatoolkit 11.0
   commands:
     - test -f $PREFIX/include/cusparseLt.h                    # [linux]
     - test -f $PREFIX/lib64/libcusparseLt.so                  # [linux]

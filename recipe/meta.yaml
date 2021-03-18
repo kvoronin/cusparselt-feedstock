@@ -6,7 +6,7 @@ package:
   version: {{ version }}.{{ patch_version }}
 
 source:
-  url: https://developer.download.nvidia.com/compute/libcusparse-lt/{{ version }}/local_installers/libcusparse_lt-linux-x86_64-{{ version }}.{{ patch_version }}.tar.gz   # [linux64 and cuda_compiler_version in ("10.1", "10.2", "11.0")]
+  url: https://developer.download.nvidia.com/compute/libcusparse-lt/{{ version }}/local_installers/libcusparse_lt-linux-x86_64-{{ version }}.{{ patch_version }}.tar.gz   # [linux64]
 
   sha256: 63a5a854b2df4477ae48284a23c1b7c7632c23fe418434fa70a2ff8ac238b27e  # [linux64]
 
@@ -17,13 +17,13 @@ build:
     - mkdir -p $PREFIX/include                                                # [unix]
     - cp -r include/* $PREFIX/include/                                        # [unix]
     - mkdir -p $PREFIX/lib64                                                  # [unix]
-    - mv lib64/{{ cuda_compiler_version }}/libcusparseLt.so* $PREFIX/lib64/   # [unix]
+    - mv lib64/libcusparseLt.so* $PREFIX/lib64/                               # [unix]
 
   ignore_run_exports_from:
     - {{ compiler('c') }}    # [linux]
     - {{ compiler('cuda') }}  # [cuda_compiler_version == "11.0"]
   run_exports:
-    - {{ pin_subpackage('cusparseLt', exact=True) }}
+    - {{ pin_subpackage('cusparselt', exact=True) }}
   missing_dso_whitelist:
     - '*/libgomp.*'  # [linux]
 
@@ -52,7 +52,7 @@ about:
   home: https://developer.nvidia.com/cusparselt
   license: LicenseRef-cuSPARSELt-Software-License-Agreement
   license_url: https://docs.nvidia.com/cuda/cusparselt/license.html
-  license_file: libcusparse_lt/libcusparse_lt/license.pdf
+  license_file: LICENSE.txt
   summary: "Tensor Linear Algebra on NVIDIA GPUs"
   description: |
     NVIDIA cuSPARSELt is a high-performance CUDA library dedicated to general

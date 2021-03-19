@@ -16,8 +16,8 @@ build:
   script:
     - mkdir -p $PREFIX/include                                                # [unix]
     - cp -r include/* $PREFIX/include/                                        # [unix]
-    - mkdir -p $PREFIX/lib64                                                  # [unix]
-    - mv lib64/libcusparseLt.so* $PREFIX/lib64/                               # [unix]
+    - mkdir -p $PREFIX/lib                                                    # [unix]
+    - mv lib64/libcusparseLt.so* $PREFIX/lib/                                 # [unix]
 
   ignore_run_exports_from:
     - {{ compiler('c') }}    # [linux]
@@ -55,7 +55,7 @@ test:
     - cudatoolkit 11.0
   commands:
     - test -f $PREFIX/include/cusparseLt.h                    # [linux]
-    - test -f $PREFIX/lib64/libcusparseLt.so                  # [linux]
+    - test -f $PREFIX/lib/libcusparseLt.so                    # [linux]
 
 about:
   home: https://developer.nvidia.com/cusparselt

@@ -5,13 +5,13 @@
 jobs:
 - job: linux
   pool:
-    vmImage: ubuntu-16.04
+    vmImage: ubuntu-latest
   strategy:
     matrix:
-      linux_64_cuda_compiler_version11.0:
-        CONFIG: linux_64_cuda_compiler_version11.0
+      linux_64_cuda_compiler_version11.2:
+        CONFIG: linux_64_cuda_compiler_version11.2
         UPLOAD_PACKAGES: 'True'
-        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cuda:11.0
+        DOCKER_IMAGE: quay.io/condaforge/linux-anvil-cuda:11.2
   timeoutInMinutes: 360
 
   steps:

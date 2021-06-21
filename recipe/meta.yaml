@@ -1,18 +1,17 @@
-{% set version = "0.0.1" %}
-{% set patch_version = "73" %}
+{% set version = "0.1.0" %}
+{% set patch_version = "2" %}
 
 package:
   name: cusparselt
   version: {{ version }}.{{ patch_version }}
 
 source:
-  url: https://developer.download.nvidia.com/compute/libcusparse-lt/{{ version }}/local_installers/libcusparse_lt-linux-x86_64-{{ version }}.{{ patch_version }}.tar.gz   # [linux64]
-
-  sha256: 63a5a854b2df4477ae48284a23c1b7c7632c23fe418434fa70a2ff8ac238b27e  # [linux64]
+  url: https://developer.download.nvidia.com/compute/libcusparse-lt/{{ version }}/local_installers/libcusparse_lt-linux-x86_64-{{ version }}.{{ patch_version }}.tar.gz  # [linux64]
+  sha256: 6a238722bda0f3df469a32e8e0321784261f7e644d827b1f286cfa442d7d7bb7  # [linux64]
 
 build:
-  number: 1
-  skip: True  # [not linux or cuda_compiler_version != "11.0"]
+  number: 0
+  skip: True  # [not linux or cuda_compiler_version != "11.2"]
   script:
     - mkdir -p $PREFIX/include                                                # [unix]
     - cp -r include/* $PREFIX/include/                                        # [unix]
@@ -21,7 +20,7 @@ build:
 
   ignore_run_exports_from:
     - {{ compiler('c') }}    # [linux]
-    - {{ compiler('cuda') }}  # [cuda_compiler_version == "11.0"]
+    - {{ compiler('cuda') }}  # [cuda_compiler_version == "11.2"]
   run_exports:
     - {{ pin_subpackage('cusparselt', exact=True) }}
   missing_dso_whitelist:
@@ -38,7 +37,7 @@ requirements:
     - libgcc-ng >=3.0     # [linux]
     # Only GLIBCXX_3.4 or older symbols present
     - libstdcxx-ng >=3.4  # [linux]
-    - cudatoolkit 11.*
+    - cudatoolkit >=11.2
   run_constrained:
     # Only GLIBC_2.17 or older symbols present
     - __glibc >=2.17      # [linux]
@@ -52,7 +51,7 @@ test:
     - sysroot_linux-64 2.17  # [linux64]
     # make sure we pick up the version matching the docker,
     # or the linker would complain
-    - cudatoolkit 11.0
+    - cudatoolkit 11.2
   commands:
     - test -f $PREFIX/include/cusparseLt.h                    # [linux]
     - test -f $PREFIX/lib/libcusparseLt.so                    # [linux]

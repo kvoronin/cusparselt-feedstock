@@ -1,5 +1,5 @@
-{% set version = "0.1.0" %}
-{% set patch_version = "2" %}
+{% set version = "0.2.0" %}
+{% set patch_version = "1" %}
 
 package:
   name: cusparselt
@@ -7,13 +7,18 @@ package:
 
 source:
   url: https://developer.download.nvidia.com/compute/libcusparse-lt/{{ version }}/local_installers/libcusparse_lt-linux-x86_64-{{ version }}.{{ patch_version }}.tar.gz  # [linux64]
+  url: https://developer.download.nvidia.com/compute/libcusparse-lt/{{ version }}/local_installers/libcusparse_lt-linux-sbsa-{{ version }}.{{ patch_version }}.tar.gz  # [aarch64]
   url: https://developer.download.nvidia.com/compute/libcusparse-lt/{{ version }}/local_installers/libcusparse_lt-windows-x86_64-{{ version }}.{{ patch_version }}.zip  # [win64]
-  sha256: 6a238722bda0f3df469a32e8e0321784261f7e644d827b1f286cfa442d7d7bb7  # [linux64]
-  sha256: 341d21b02d7db6ad4523d24c4048a2c0f5033c1693e4991f81b369a38dc103b5  # [win64]
+  sha256: a2d724d44fc20ebd1ee481aee444cef0a803338c69208f7c70e2556920705541  # [linux64]
+  sha256: 09a0d5afbc804ff2dabb65c012a59352a22a1596223929e4fd35e602c0df7b4c  # [aarch64]
+  sha256: 6379fddb2b8922a62510781b1a478986cf3dbdb8026fcd121c49e929ccf192c2  # [win64]
 
 build:
   number: 0
-  skip: True  # [(not linux64 and not win64) or cuda_compiler_version != "11.2"]
+  skip: True  # [(not linux64 and not win64 and not (aarch64 and arm_variant_type == "sbsa")) or cuda_compiler_version != "11.2"]
+  script_env:
+    # for some reason /usr/local/cuda is not added to $PATH in the docker image
+    - CUDA_HOME  # [ppc64le or aarch64]
   script:
     - mkdir -p $PREFIX/include                                                # [unix]
     - cp -r include/* $PREFIX/include/                                        # [unix]
@@ -35,7 +40,7 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cuda') }}
-    - sysroot_linux-64 2.17  # [linux64]
+    - sysroot_linux-64 2.17  # [linux]
     - libgomp  # [linux]
   run:
     # Only GCC_3.0 or older symbols present
@@ -53,7 +58,7 @@ test:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ compiler('cuda') }}
-    - sysroot_linux-64 2.17  # [linux64]
+    - sysroot_linux-64 2.17  # [linux]
     # make sure we pick up the version matching the docker,
     # or the linker would complain
     - cudatoolkit 11.2

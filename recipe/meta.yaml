@@ -62,6 +62,8 @@ test:
     # make sure we pick up the version matching the docker,
     # or the linker would complain
     - cudatoolkit 11.2
+  files:
+    - test_load_elf.c        # [linux]
 
 about:
   home: https://developer.nvidia.com/cusparse

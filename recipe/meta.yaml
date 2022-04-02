@@ -30,7 +30,6 @@ build:
     - copy lib\\cusparseLt.lib %LIBRARY_LIB%\\                             # [win64]
   ignore_run_exports_from:
     - {{ compiler('c') }}    # [linux]
-    - {{ compiler('cuda') }}
   run_exports:
     - {{ pin_subpackage('cusparselt', exact=True) }}
   missing_dso_whitelist:
@@ -47,7 +46,6 @@ requirements:
     - libgcc-ng >=3.0     # [linux]
     # Only GLIBCXX_3.4 or older symbols present
     - libstdcxx-ng >=3.4  # [linux]
-    - cudatoolkit >=11.2,<12
   run_constrained:
     # Only GLIBC_2.17 or older symbols present
     - __glibc >=2.17      # [linux]

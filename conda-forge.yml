@@ -1,5 +1,8 @@
 conda_forge_output_validation: true
-provider: {linux_aarch64: azure}
+provider:
+  linux_aarch64: azure
+os_version:
+  linux_aarch64: cos7
 github:
   branch_name: main
   tooling_branch_name: main

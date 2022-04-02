@@ -14,7 +14,7 @@ source:
   sha256: 6379fddb2b8922a62510781b1a478986cf3dbdb8026fcd121c49e929ccf192c2  # [win64]
 
 build:
-  number: 0
+  number: 1
   skip: True  # [(not linux64 and not win64 and not (aarch64 and arm_variant_type == "sbsa")) or cuda_compiler_version != "11.2"]
   script_env:
     # for some reason /usr/local/cuda is not added to $PATH in the docker image

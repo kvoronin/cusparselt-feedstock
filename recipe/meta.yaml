@@ -28,8 +28,6 @@ build:
     - copy include\\cusparseLt.h %LIBRARY_INC%\\                           # [win64]
     - copy lib\\cusparseLt.dll %LIBRARY_BIN%\\                             # [win64]
     - copy lib\\cusparseLt.lib %LIBRARY_LIB%\\                             # [win64]
-  ignore_run_exports_from:
-    - {{ compiler('c') }}    # [linux]
   run_exports:
     - {{ pin_subpackage('cusparselt', exact=True) }}
   missing_dso_whitelist:
@@ -40,12 +38,8 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cuda') }}
     - sysroot_linux-64 2.17  # [linux]
-    - libgomp  # [linux]
   run:
-    # Only GCC_3.0 or older symbols present
-    - libgcc-ng >=3.0     # [linux]
-    # Only GLIBCXX_3.4 or older symbols present
-    - libstdcxx-ng >=3.4  # [linux]
+    - libgomp  # [linux]
   run_constrained:
     # Only GLIBC_2.17 or older symbols present
     - __glibc >=2.17      # [linux]

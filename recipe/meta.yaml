@@ -58,7 +58,7 @@ about:
   home: https://developer.nvidia.com/cusparse
   license: LicenseRef-cuSPARSELt-Software-License-Agreement
   license_url: https://docs.nvidia.com/cuda/cusparselt/license.html
-  license_file: LICENSE.txt
+  license_file: LICENSE
   summary: "Basic Linear Algebra for Sparse Matrices on NVIDIA GPUs"
   description: |
     NVIDIA cuSPARSELt is a high-performance CUDA library dedicated to general

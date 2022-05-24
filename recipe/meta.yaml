@@ -20,7 +20,7 @@ build:
     - mkdir -p $PREFIX/include                                                # [unix]
     - cp -r include/* $PREFIX/include/                                        # [unix]
     - mkdir -p $PREFIX/lib                                                    # [unix]
-    - mv lib64/libcusparseLt.so* $PREFIX/lib/                                 # [unix]
+    - mv lib/libcusparseLt.so* $PREFIX/lib/                                   # [unix]
 
     - copy include\\cusparseLt.h %LIBRARY_INC%\\                           # [win64]
     - copy lib\\cusparseLt.dll %LIBRARY_BIN%\\                             # [win64]

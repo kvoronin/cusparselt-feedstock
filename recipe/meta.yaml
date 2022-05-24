@@ -6,9 +6,9 @@ package:
   version: {{ version }}.{{ patch_version }}
 
 source:
-  url: https://developer.download.nvidia.com/compute/libcusparse-lt/{{ version }}/local_installers/libcusparse_lt-linux-x86_64-{{ version }}.{{ patch_version }}.tar.gz  # [linux64]
-  url: https://developer.download.nvidia.com/compute/libcusparse-lt/{{ version }}/local_installers/libcusparse_lt-linux-sbsa-{{ version }}.{{ patch_version }}.tar.gz  # [aarch64]
-  url: https://developer.download.nvidia.com/compute/libcusparse-lt/{{ version }}/local_installers/libcusparse_lt-windows-x86_64-{{ version }}.{{ patch_version }}.zip  # [win64]
+  url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse-lt/linux-x86_64/libcusparse_lt-linux-x86_64-{{ version }}.{{ patch_version }}-archive.tar.xz  # [linux64]
+  url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse-lt/linux-sbsa/libcusparse_lt-linux-sbsa-{{ version }}.{{ patch_version }}-archive.tar.xz  # [aarch64]
+  url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse-lt/windows-x86_64/libcusparse_lt-windows-x86_64-{{ version }}.{{ patch_version }}-archive.zip  # [win64]
   sha256: 46b258c2c333f7324e03bdf6b13576be6153b1218fb531025631650e36515f45  # [linux64]
   sha256: 6269885ec6cecc1a0aa95f344f35c882b6bf0a6ef55d1726e2cf59e11a3af68e  # [aarch64]
   sha256: 321cb5f4dac58fe518e71c38cc7363c0f6090eb8e6c6455941e50d247ddbf8cf  # [win64]

@@ -14,7 +14,7 @@ source:
   sha256: 321cb5f4dac58fe518e71c38cc7363c0f6090eb8e6c6455941e50d247ddbf8cf  # [win64]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [ppc64le or (cuda_compiler_version != "11.2")]
   script:
     - mkdir -p $PREFIX/include                                                # [unix]

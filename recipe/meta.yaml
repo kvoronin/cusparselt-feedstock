@@ -13,9 +13,10 @@ source:
   sha256: 09dc2e7b95da72f315cdd75a815e84b6c9bb9d01677f2837013fe6d57af616fd  # [win64]
 
 build:
-  number: 1
-  skip: true  # [ppc64le or (cuda_compiler_version != "11.2")]
+  number: 2
+  skip: true  # [ppc64le or cuda_compiler_version not in ("11.2", "12.0")]
   script:
+    # According to the cuSPARSE team, the same binary works for both CUDA 11 & 12
     - mkdir -p $PREFIX/include                                                # [unix]
     - cp -r include/* $PREFIX/include/                                        # [unix]
     - mkdir -p $PREFIX/lib                                                    # [unix]
@@ -35,6 +36,9 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ compiler('cuda') }}
     - sysroot_linux-64 2.17  # [linux64]
+  host:
+    # https://github.com/NixOS/patchelf/issues/492
+    - patchelf !=0.18     # [linux]
   run:
   run_constrained:
     # Only GLIBC_2.17 or older symbols present
@@ -49,7 +53,7 @@ test:
     - sysroot_linux-64 2.17  # [linux64]
     # make sure we pick up the version matching the docker,
     # or the linker would complain
-    - cudatoolkit 11.2
+    - cudatoolkit 11.2|11.2.*       # [cuda_compiler_version == "11.2"]
   files:
     - test_load_elf.c        # [linux]
 

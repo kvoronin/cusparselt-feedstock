@@ -56,7 +56,7 @@ test:
     - cudatoolkit 11.2|11.2.*       # [cuda_compiler_version == "11.2"]
     # tests need the cuSPARSE header & libnvrtc.so
     - libcusparse-dev               # [cuda_compiler_version == "12.0"]
-    - cuda-nvrtc                    # [cuda_compiler_version == "12.0"]
+    - cuda-nvrtc-dev                # [cuda_compiler_version == "12.0"]
   files:
     - test_load_elf.c        # [linux]
 

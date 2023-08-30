@@ -11,9 +11,9 @@ fi
 
 # for cuSPARSE header
 if [[ "${cuda_compiler_version}" =~ 12.* ]]; then
-    CUDA_INC_PATH="${PREFIX}"
+    CUDA_INC_PATH="${PREFIX}/include"
 elif [[ "${cuda_compiler_version}" =~ 11.* ]]; then
-    CUDA_INC_PATH="${CUDA_PATH}"
+    CUDA_INC_PATH="${CUDA_PATH}/include"
 fi
 
 git clone https://github.com/NVIDIA/CUDALibrarySamples.git sample_linux/

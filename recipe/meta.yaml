@@ -13,7 +13,7 @@ source:
   sha256: beddcd06a210acd9839ecaee5161af3937ed8552edccc3fd7b9659b7ca017a46  # [win64]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [ppc64le or cuda_compiler_version not in ("11.2", "12.0")]
   script:
     # According to the cuSPARSE team, the same binary works for both CUDA 11 & 12

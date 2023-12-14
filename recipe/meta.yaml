@@ -1,4 +1,4 @@
-{% set version = "0.5.0.1" %}
+{% set version = "0.5.2.1" %}
 
 package:
   name: cusparselt
@@ -8,12 +8,12 @@ source:
   url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/linux-x86_64/libcusparse_lt-linux-x86_64-{{ version }}-archive.tar.xz  # [linux64]
   url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/linux-sbsa/libcusparse_lt-linux-sbsa-{{ version }}-archive.tar.xz  # [aarch64]
   url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/windows-x86_64/libcusparse_lt-windows-x86_64-{{ version }}-archive.zip  # [win64]
-  sha256: 4502db0cabec972b298f74c0e31630f602c80be89e59a413464f3daae94dfff4  # [linux64]
-  sha256: 61bfc2fa7d16d9c688e0c3afc0c34e538cb8409980a05853ac06198852ec1793  # [aarch64]
-  sha256: beddcd06a210acd9839ecaee5161af3937ed8552edccc3fd7b9659b7ca017a46  # [win64]
+  sha256: d6cd9ffc0838d2e25453358ca160c1bed34e2f7b5dc155c428d22ba7fc3d8334  # [linux64]
+  sha256: 389167df60404fe9d49f5975239bd095c440328d951152082d8603f8bdac1a97  # [aarch64]
+  sha256: ae4532cb17c55e224bb8c8f7786f1e115626571ba1843dcaf8bb67cfae12f613  # [win64]
 
 build:
-  number: 1
+  number: 0
   skip: true  # [ppc64le or cuda_compiler_version not in ("11.2", "12.0")]
   script:
     # According to the cuSPARSE team, the same binary works for both CUDA 11 & 12

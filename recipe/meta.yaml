@@ -14,7 +14,7 @@ source:
 
 build:
   number: 0
-  skip: true  # [ppc64le or cuda_compiler_version != "12.0"]
+  skip: true  # [ppc64le or not cuda_compiler_version.startswith("12")]
   script:
     # According to the cuSPARSE team, the same binary works for both CUDA 11 & 12
     - mkdir -p $PREFIX/include                                                # [unix]

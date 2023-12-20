@@ -51,12 +51,9 @@ test:
     - {{ compiler('cxx') }}
     - {{ compiler('cuda') }}
     - sysroot_linux-64 2.17  # [linux64]
-    # make sure we pick up the version matching the docker,
-    # or the linker would complain
-    - cudatoolkit 11.2|11.2.*       # [cuda_compiler_version == "11.2"]
     # tests need the cuSPARSE header & libnvrtc.so
-    - libcusparse-dev               # [cuda_compiler_version == "12.0"]
-    - cuda-nvrtc-dev                # [cuda_compiler_version == "12.0"]
+    - libcusparse-dev
+    - cuda-nvrtc-dev
   files:
     - test_load_elf.c        # [linux]
 

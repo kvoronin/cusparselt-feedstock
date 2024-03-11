@@ -1,4 +1,4 @@
-{% set version = "0.5.2.1" %}
+{% set version = "0.6.0.6" %}
 
 package:
   name: cusparselt
@@ -8,9 +8,9 @@ source:
   url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/linux-x86_64/libcusparse_lt-linux-x86_64-{{ version }}-archive.tar.xz  # [linux64]
   url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/linux-sbsa/libcusparse_lt-linux-sbsa-{{ version }}-archive.tar.xz  # [aarch64]
   url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/windows-x86_64/libcusparse_lt-windows-x86_64-{{ version }}-archive.zip  # [win64]
-  sha256: d6cd9ffc0838d2e25453358ca160c1bed34e2f7b5dc155c428d22ba7fc3d8334  # [linux64]
-  sha256: 389167df60404fe9d49f5975239bd095c440328d951152082d8603f8bdac1a97  # [aarch64]
-  sha256: ae4532cb17c55e224bb8c8f7786f1e115626571ba1843dcaf8bb67cfae12f613  # [win64]
+  sha256: da20d7a6d7a6674cb6e991439eaacd4661631c71a2f1026c41fba115c5c9c8b5  # [linux64]
+  sha256: 51db8182444b4e2c125397ea95e4996c022ef791a87ce7a7389204e77617297f  # [aarch64]
+  sha256: 617dd42c80b7409af984a80fa79bb1d55eea1f22677aa9b6207b80ae529bcf06  # [win64]
 
 build:
   number: 0

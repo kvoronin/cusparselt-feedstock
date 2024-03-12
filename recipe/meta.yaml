@@ -53,6 +53,7 @@ test:
     # tests need the cuSPARSE header & libnvrtc.so
     - libcusparse-dev
     - cuda-nvrtc-dev
+    - cuda-driver-dev        # [linux and (cuda_compiler_version or "").startswith("12")]
   files:
     - test_load_elf.c        # [linux]
 

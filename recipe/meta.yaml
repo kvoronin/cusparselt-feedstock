@@ -1,4 +1,4 @@
-{% set version = "0.6.0.6" %}
+{% set version = "0.6.1.0" %}
 
 package:
   name: cusparselt
@@ -8,9 +8,9 @@ source:
   url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/linux-x86_64/libcusparse_lt-linux-x86_64-{{ version }}-archive.tar.xz  # [linux64]
   url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/linux-sbsa/libcusparse_lt-linux-sbsa-{{ version }}-archive.tar.xz  # [aarch64]
   url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/windows-x86_64/libcusparse_lt-windows-x86_64-{{ version }}-archive.zip  # [win64]
-  sha256: da20d7a6d7a6674cb6e991439eaacd4661631c71a2f1026c41fba115c5c9c8b5  # [linux64]
-  sha256: 51db8182444b4e2c125397ea95e4996c022ef791a87ce7a7389204e77617297f  # [aarch64]
-  sha256: 617dd42c80b7409af984a80fa79bb1d55eea1f22677aa9b6207b80ae529bcf06  # [win64]
+  sha256: 57288bed161cf5cb7365ea5488fac53d76da3e9682c1b2130515e64de4366276  # [linux64]
+  sha256: d07ee5ff24fb18f4b7c769d5a6bf476c7e68f7a18dd31f6b676b1d1c27759482  # [aarch64]
+  sha256: badb8bf09d0b595c9fc5e8aa94b9599fd19fefa411730d2b246ab2926c30ea1e  # [win64]
 
 build:
   number: 0
@@ -32,9 +32,9 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - {{ compiler('cuda') }}
-    - sysroot_linux-64 2.17  # [linux64]
   host:
     # https://github.com/NixOS/patchelf/issues/492
     - patchelf !=0.18     # [linux]
@@ -49,7 +49,6 @@ test:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ compiler('cuda') }}
-    - sysroot_linux-64 2.17  # [linux64]
     # tests need the cuSPARSE header & libnvrtc.so
     - libcusparse-dev
     - cuda-nvrtc-dev

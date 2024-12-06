@@ -5,12 +5,12 @@ package:
   version: {{ version }}
 
 source:
-  url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/linux-x86_64/libcusparse_lt-linux-x86_64-{{ version }}-archive.tar.xz  # [linux64]
-  url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/linux-sbsa/libcusparse_lt-linux-sbsa-{{ version }}-archive.tar.xz  # [aarch64]
-  url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/windows-x86_64/libcusparse_lt-windows-x86_64-{{ version }}-archive.zip  # [win64]
-  sha256: a2f856e78943f5c538bdef1c9edc64a5ed30bf8bb7d5fcb615c684ffe776cc31  # [linux64]
-  sha256: 3e420ddbff4eb9ac603f57c7aa8b3d5271112816e244eb55ef9f30c4eb6a04b7  # [aarch64]
-  sha256: 6d276e33a399008c22ffefd707eefe2f57ff2ff8f1dc1929d9e3e75d3c83562d  # [win64]
+  - url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/linux-x86_64/libcusparse_lt-linux-x86_64-{{ version }}-archive.tar.xz  # [linux64]
+    sha256: a2f856e78943f5c538bdef1c9edc64a5ed30bf8bb7d5fcb615c684ffe776cc31  # [linux64]
+  - url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/linux-sbsa/libcusparse_lt-linux-sbsa-{{ version }}-archive.tar.xz  # [aarch64]
+    sha256: 3e420ddbff4eb9ac603f57c7aa8b3d5271112816e244eb55ef9f30c4eb6a04b7  # [aarch64]
+  - url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/windows-x86_64/libcusparse_lt-windows-x86_64-{{ version }}-archive.zip  # [win64]
+    sha256: 6d276e33a399008c22ffefd707eefe2f57ff2ff8f1dc1929d9e3e75d3c83562d  # [win64]
 
 build:
   number: 1

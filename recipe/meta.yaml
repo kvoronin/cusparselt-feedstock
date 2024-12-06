@@ -13,7 +13,7 @@ source:
   sha256: 6d276e33a399008c22ffefd707eefe2f57ff2ff8f1dc1929d9e3e75d3c83562d  # [win64]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [ppc64le or not (cuda_compiler_version or "").startswith("12")]
   script:
     - mkdir -p $PREFIX/include                                                # [unix]
@@ -25,7 +25,7 @@ build:
     - copy lib\\cusparseLt.dll %LIBRARY_BIN%\\                             # [win64]
     - copy lib\\cusparseLt.lib %LIBRARY_LIB%\\                             # [win64]
   run_exports:
-    - {{ pin_subpackage('cusparselt', exact=True) }}
+    - {{ pin_subpackage('cusparselt', max_pin='x.x.x.x') }}
   missing_dso_whitelist:
     - '*/libgomp.*'  # [linux]
 

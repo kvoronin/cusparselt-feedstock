@@ -31,21 +31,19 @@ build:
 
 requirements:
   build:
+    - arm-variant * {{ arm_variant_type }}  # [aarch64]
     - {{ compiler('c') }}
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - {{ compiler('cuda') }}
-  host:
-    # https://github.com/NixOS/patchelf/issues/492
-    - patchelf !=0.18     # [linux]
+      # https://github.com/NixOS/patchelf/issues/492
+    - patchelf <0.18.0    # [linux]
   run:
-  run_constrained:
-    # Only GLIBC_2.17 or older symbols present
-    - __glibc >=2.17      # [linux]
 
 test:
   requires:
     - git
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ compiler('cuda') }}
@@ -53,6 +51,7 @@ test:
     - libcusparse-dev
     - cuda-nvrtc-dev
     - cuda-driver-dev        # [linux and (cuda_compiler_version or "").startswith("12")]
+    - patchelf               # [linux]
   files:
     - test_load_elf.c        # [linux]
 

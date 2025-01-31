@@ -37,7 +37,7 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - {{ compiler('cuda') }}
-    - cf-nvidia-tools     # [linux]
+    - cf-nvidia-tools 1   # [linux]
       # https://github.com/NixOS/patchelf/issues/492
     - patchelf <0.18.0    # [linux]
   run:

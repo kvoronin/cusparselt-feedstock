@@ -16,6 +16,7 @@ build:
   number: 0
   skip: true  # [ppc64le or not (cuda_compiler_version or "").startswith("12")]
   script:
+    - check-glibc lib/*.so.*                                                  # [unix]
     - mkdir -p $PREFIX/include                                                # [unix]
     - cp -r include/* $PREFIX/include/                                        # [unix]
     - mkdir -p $PREFIX/lib                                                    # [unix]
@@ -36,6 +37,7 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - {{ compiler('cuda') }}
+    - cf-nvidia-tools 1   # [linux]
       # https://github.com/NixOS/patchelf/issues/492
     - patchelf <0.18.0    # [linux]
   run:

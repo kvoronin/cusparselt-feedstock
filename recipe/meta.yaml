@@ -78,6 +78,7 @@ about:
 
 extra:
   recipe-maintainers:
+    - conda-forge/cuda
     - kvoronin
     - mtjrider
     - mnicely

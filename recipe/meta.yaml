@@ -39,22 +39,6 @@ requirements:
     - arm-variant * {{ arm_variant_type }}  # [aarch64]
     - cf-nvidia-tools 1   # [linux]
 
-test:
-  files:
-    - test/test_load_elf.c        # [linux]
-  requires:  # [build_platform == target_platform]
-    - {{ compiler("c") }}  # [build_platform == target_platform]
-    - {{ compiler("cxx") }}  # [build_platform == target_platform]
-    - {{ compiler('cuda') }}  # [build_platform == target_platform]
-    - {{ stdlib("c") }}  # [build_platform == target_platform]
-    - cmake  # [build_platform == target_platform]
-    - ninja  # [build_platform == target_platform]
-    - git
-    # test_load_elf needs the cuSPARSE header & libnvrtc.so
-    - libcusparse-dev        # [linux]
-    - cuda-nvrtc-dev         # [linux]
-    - cuda-driver-dev        # [linux and (cuda_compiler_version or "").startswith("12")]
-
 outputs:
 
   - name: cusparselt
@@ -108,12 +92,30 @@ outputs:
       run_constrained:
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
     test:
+      files:
+        - test/test_load_elf.c        # [linux]
+        - test/run_test.sh   # [linux]
+        - test/run_test.bat  # [win]
       commands:
         - test -f $PREFIX/include/cusparseLt.h  # [linux]
         - test -L $PREFIX/lib/libcusparseLt.so  # [linux]
         - test ! -f $PREFIX/lib/libcusparseLt_static.a  # [linux]
+        - bash test/run_test.sh  # [linux]
         - if not exist %LIBRARY_LIB%\\cusparseLt.lib exit 1  # [win]
         - if not exist %LIBRARY_INC%\\cusparseLt.h exit 1  # [win]
+        - test/run_test.bat  # [win]
+      requires:  # [build_platform == target_platform]
+        - {{ compiler("c") }}  # [build_platform == target_platform]
+        - {{ compiler("cxx") }}  # [build_platform == target_platform]
+        - {{ compiler('cuda') }}  # [build_platform == target_platform]
+        - {{ stdlib("c") }}  # [build_platform == target_platform]
+        - cmake  # [build_platform == target_platform]
+        - ninja  # [build_platform == target_platform]
+        - git
+        # test_load_elf needs the cuSPARSE header & libnvrtc.so
+        - libcusparse-dev        # [linux]
+        - cuda-nvrtc-dev         # [linux]
+        - cuda-driver-dev        # [linux and (cuda_compiler_version or "").startswith("12")]
 
 about:
   home: https://developer.nvidia.com/cusparse

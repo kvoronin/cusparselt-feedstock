@@ -113,8 +113,8 @@ outputs:
         - ninja  # [build_platform == target_platform]
         - git
         # test_load_elf needs the cuSPARSE header & libnvrtc.so
-        - libcusparse-dev        # [linux]
-        - cuda-nvrtc-dev         # [linux]
+        - libcusparse-dev
+        - cuda-nvrtc-dev
         - cuda-driver-dev        # [linux and (cuda_compiler_version or "").startswith("12")]
 
 about:

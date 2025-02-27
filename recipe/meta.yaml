@@ -52,6 +52,7 @@ outputs:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cuda') }}
+        - {{ compiler('cxx') }}
         - arm-variant * {{ arm_variant_type }}  # [aarch64]
         - {{ stdlib("c") }}
       host:

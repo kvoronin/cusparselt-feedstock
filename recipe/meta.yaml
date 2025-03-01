@@ -1,61 +1,122 @@
-{% set version = "0.7.0.0" %}
+{% set version = "0.7.1.0" %}
+{% set soversion = ".".join(version.split(".")[:4]) %}
+{% set somajor = version.split(".")[0] %}
+{% set platform = "linux-sbsa" %}  # [aarch64]
+{% set platform = "linux-x86_64" %}  # [linux64]
+{% set platform = "placeholder" %}  # [osx]
+{% set extension = "tar.xz" %}  # [unix]
+{% set platform = "windows-x86_64" %}  # [win64]
+{% set extension = "zip" %}  # [win64]
+
+{% set cuda_compiler_version = cuda_compiler_version|default("None") %}
+{% set cuda_major = environ.get("cuda_compiler_version", "12.0").split(".")[0] %}
 
 package:
-  name: cusparselt
+  name: cusparselt-split
   version: {{ version }}
 
 source:
   - url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/linux-x86_64/libcusparse_lt-linux-x86_64-{{ version }}-archive.tar.xz  # [linux64]
-    sha256: 6082f3d7f024b0183225d48361ca8436fdf30d5833e3595c6c145c03171c13ee  # [linux64]
+    sha256: a0d885837887c73e466a31b4e86aaae2b7d0cc9c5de0d40921dbe2a15dbd6a88  # [linux64]
   - url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/linux-sbsa/libcusparse_lt-linux-sbsa-{{ version }}-archive.tar.xz  # [aarch64]
-    sha256: f625038f52dec7068824889d523e16112a2363c7e4f1da87adaac6db6bb7caa5  # [aarch64]
+    sha256: 4a131d0a54728e53ba536b50bb65380603456f1656e7df8ee52e285618a0b57c  # [aarch64]
   - url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/windows-x86_64/libcusparse_lt-windows-x86_64-{{ version }}-archive.zip  # [win64]
-    sha256: 06c2d7a7ef37f3a0fc124491ec9486de8f8f1fdfc25449e54b01840abbe19047  # [win64]
+    sha256: 004bcb1b700c24ca8d60a8ddd2124640f61138a6c29914d2afaa0bfa0d0e3cf2  # [win64]
 
 build:
   number: 0
   skip: true  # [ppc64le or not (cuda_compiler_version or "").startswith("12")]
-  script:
-    - check-glibc lib/*.so.*                                                  # [unix]
-    - mkdir -p $PREFIX/include                                                # [unix]
-    - cp -r include/* $PREFIX/include/                                        # [unix]
-    - mkdir -p $PREFIX/lib                                                    # [unix]
-    - mv lib/libcusparseLt.so* $PREFIX/lib/                                   # [unix]
-
-    - copy include\\cusparseLt.h %LIBRARY_INC%\\                           # [win64]
-    - copy lib\\cusparseLt.dll %LIBRARY_BIN%\\                             # [win64]
-    - copy lib\\cusparseLt.lib %LIBRARY_LIB%\\                             # [win64]
-  run_exports:
-    - {{ pin_subpackage('cusparselt', max_pin='x.x.x.x') }}
-  missing_dso_whitelist:
-    - '*/libgomp.*'  # [linux]
-
+  script:  # [win]
+    - xcopy include %LIBRARY_INC% /E /I /Y /V  # [win]
+    - copy lib\cusparseLt.lib %LIBRARY_LIB%\cusparseLt.lib /Y /V  # [win]
+    - copy lib\cusparseLt.dll %LIBRARY_BIN%\cusparseLt.dll /Y /V  # [win]
 requirements:
   build:
-    - arm-variant * {{ arm_variant_type }}  # [aarch64]
     - {{ compiler('c') }}
+    - {{ compiler('cuda') }}
+    - {{ compiler('cxx') }}
     - {{ stdlib("c") }}
-    - {{ compiler('cxx') }}
-    - {{ compiler('cuda') }}
+    - arm-variant * {{ arm_variant_type }}  # [aarch64]
     - cf-nvidia-tools 1   # [linux]
-      # https://github.com/NixOS/patchelf/issues/492
-    - patchelf <0.18.0    # [linux]
-  run:
 
-test:
-  requires:
-    - git
-    - {{ stdlib('c') }}
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - {{ compiler('cuda') }}
-    # tests need the cuSPARSE header & libnvrtc.so
-    - libcusparse-dev
-    - cuda-nvrtc-dev
-    - cuda-driver-dev        # [linux and (cuda_compiler_version or "").startswith("12")]
-    - patchelf               # [linux]
-  files:
-    - test_load_elf.c        # [linux]
+outputs:
+
+  - name: cusparselt
+    build:
+      ignore_run_exports_from:
+        - {{ compiler('cuda') }}
+    files:
+      - lib/libcusparseLt.so.*              # [linux]
+      - Library/bin/cusparseLt.dll          # [win]
+    requirements:
+      build:
+        - {{ compiler('c') }}
+        - {{ compiler('cuda') }}
+        - {{ compiler('cxx') }}
+        - arm-variant * {{ arm_variant_type }}  # [aarch64]
+        - {{ stdlib("c") }}
+      host:
+        - cuda-version {{ cuda_compiler_version }}  # [cuda_compiler_version != "None"]
+      run:
+        - {{ pin_compatible('cuda-version', max_pin='x', min_pin='x') }}  # [cuda_compiler_version != "None"]
+      run_constrained:
+        - arm-variant * {{ arm_variant_type }}  # [aarch64]
+    test:
+      commands:
+        - test -f $PREFIX/lib/libcusparseLt.so.{{ soversion }}  # [linux]
+        - test -L $PREFIX/lib/libcusparseLt.so.{{ somajor }}  # [linux]
+        - test ! -f $PREFIX/lib/libcusparseLt_static.a  # [linux]
+        - if not exist %LIBRARY_BIN%\\cusparseLt.dll exit 1  # [win]
+    about:
+      summary: The NVIDIA cuSPARSELt runtime library
+      license: LicenseRef-cuSPARSELt-Software-License-Agreement
+      license_file: LICENSE
+      description: >-
+        This is a runtime package only. Developers should install cusparselt-dev to build with
+        cuSPARSELt.
+
+  - name: cusparselt-dev
+    build:
+      run_exports:
+        # Breaking changes every version until 1.0
+        - {{ pin_subpackage("cusparselt", max_pin="x.x.x") }}
+    files:
+      - lib/libcusparseLt.so    # [linux]
+      - include/cusparseLt.h    # [linux]
+      - Library/lib/cusparseLt.lib    # [win]
+      - Library/include/cusparseLt.h  # [win]
+    requirements:
+      host:
+        - {{ pin_subpackage("cusparselt", exact=True) }}
+      run:
+        - {{ pin_subpackage("cusparselt", exact=True) }}
+      run_constrained:
+        - arm-variant * {{ arm_variant_type }}  # [aarch64]
+    test:
+      files:
+        - test/test_load_elf.c        # [linux]
+        - test/run_test.sh   # [linux]
+        - test/run_test.bat  # [win]
+      commands:
+        - test -f $PREFIX/include/cusparseLt.h  # [linux]
+        - test -L $PREFIX/lib/libcusparseLt.so  # [linux]
+        - test ! -f $PREFIX/lib/libcusparseLt_static.a  # [linux]
+        - bash test/run_test.sh  # [linux]
+        - if not exist %LIBRARY_LIB%\\cusparseLt.lib exit 1  # [win]
+        - if not exist %LIBRARY_INC%\\cusparseLt.h exit 1  # [win]
+        - test/run_test.bat  # [win]
+      requires:  # [build_platform == target_platform]
+        - {{ compiler("c") }}  # [build_platform == target_platform]
+        - {{ compiler("cxx") }}  # [build_platform == target_platform]
+        - {{ compiler('cuda') }}  # [build_platform == target_platform]
+        - {{ stdlib("c") }}  # [build_platform == target_platform]
+        - cmake  # [build_platform == target_platform]
+        - ninja  # [build_platform == target_platform]
+        - git
+        # test_load_elf needs the cuSPARSE header & libnvrtc.so
+        - libcusparse-dev
+        - cuda-nvrtc-dev
+        - cuda-driver-dev        # [linux and (cuda_compiler_version or "").startswith("12")]
 
 about:
   home: https://developer.nvidia.com/cusparse

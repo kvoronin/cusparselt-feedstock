@@ -24,9 +24,9 @@ source:
     sha256: 004bcb1b700c24ca8d60a8ddd2124640f61138a6c29914d2afaa0bfa0d0e3cf2  # [win64]
 
 build:
-  number: 0
+  number: 1
   skip: true  # [ppc64le or not (cuda_compiler_version or "").startswith("12")]
-  script:  # [win]
+  script:   # [win]
     - xcopy include %LIBRARY_INC% /E /I /Y /V  # [win]
     - copy lib\cusparseLt.lib %LIBRARY_LIB%\cusparseLt.lib /Y /V  # [win]
     - copy lib\cusparseLt.dll %LIBRARY_BIN%\cusparseLt.dll /Y /V  # [win]
@@ -72,8 +72,7 @@ outputs:
       license: LicenseRef-cuSPARSELt-Software-License-Agreement
       license_file: LICENSE
       description: >-
-        This is a runtime package only. Developers should install cusparselt-dev to build with
-        cuSPARSELt.
+        This is a runtime package only. Developers should install cusparselt-dev to build with cuSPARSELt.
 
   - name: cusparselt-dev
     build:
@@ -105,7 +104,7 @@ outputs:
         - if not exist %LIBRARY_LIB%\\cusparseLt.lib exit 1  # [win]
         - if not exist %LIBRARY_INC%\\cusparseLt.h exit 1  # [win]
         - test/run_test.bat  # [win]
-      requires:  # [build_platform == target_platform]
+      requires:   # [build_platform == target_platform]
         - {{ compiler("c") }}  # [build_platform == target_platform]
         - {{ compiler("cxx") }}  # [build_platform == target_platform]
         - {{ compiler('cuda') }}  # [build_platform == target_platform]

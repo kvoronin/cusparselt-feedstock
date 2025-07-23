@@ -24,7 +24,7 @@ source:
     sha256: 004bcb1b700c24ca8d60a8ddd2124640f61138a6c29914d2afaa0bfa0d0e3cf2  # [win64]
 
 build:
-  number: 1
+  number: 2
   skip: true  # [ppc64le or not (cuda_compiler_version or "").startswith("12")]
   script:   # [win]
     - xcopy include %LIBRARY_INC% /E /I /Y /V  # [win]

@@ -1,4 +1,4 @@
-{% set version = "0.7.1.0" %}
+{% set version = "0.8.0.4" %}
 {% set soversion = ".".join(version.split(".")[:4]) %}
 {% set somajor = version.split(".")[0] %}
 {% set platform = "linux-sbsa" %}  # [aarch64]
@@ -6,30 +6,30 @@
 {% set platform = "placeholder" %}  # [osx]
 {% set extension = "tar.xz" %}  # [unix]
 {% set platform = "windows-x86_64" %}  # [win64]
-{% set extension = "zip" %}  # [win64]
-
-{% set cuda_compiler_version = cuda_compiler_version|default("None") %}
-{% set cuda_major = environ.get("cuda_compiler_version", "12.0").split(".")[0] %}
+{% set extension = "tar.xz" %}  # [not win]
+{% set extension = "zip" %}  # [win]
 
 package:
   name: cusparselt-split
   version: {{ version }}
 
 source:
-  - url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/linux-x86_64/libcusparse_lt-linux-x86_64-{{ version }}-archive.tar.xz  # [linux64]
-    sha256: a0d885837887c73e466a31b4e86aaae2b7d0cc9c5de0d40921dbe2a15dbd6a88  # [linux64]
-  - url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/linux-sbsa/libcusparse_lt-linux-sbsa-{{ version }}-archive.tar.xz  # [aarch64]
-    sha256: 4a131d0a54728e53ba536b50bb65380603456f1656e7df8ee52e285618a0b57c  # [aarch64]
-  - url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/windows-x86_64/libcusparse_lt-windows-x86_64-{{ version }}-archive.zip  # [win64]
-    sha256: 004bcb1b700c24ca8d60a8ddd2124640f61138a6c29914d2afaa0bfa0d0e3cf2  # [win64]
+  url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/{{ platform }}/libcusparse_lt-{{ platform }}-{{ version }}_cuda12-archive.{{ extension }}  # [(cuda_compiler_version or "").startswith("12")]
+  url: https://developer.download.nvidia.com/compute/cusparselt/redist/libcusparse_lt/{{ platform }}/libcusparse_lt-{{ platform }}-{{ version }}_cuda13-archive.{{ extension }}  # [(cuda_compiler_version or "").startswith("13")]
+  sha256: b59e2f8ffd154b156b2d74ccd7cad7775385693bec8cb9562596060072c515f2  # [aarch64 and (cuda_compiler_version or "").startswith("12")]
+  sha256: 483954591766bade877becef126d53908d5fef5d7468b503736af37388669c08  # [linux64 and (cuda_compiler_version or "").startswith("12")]
+  sha256: d2010d798336eb2df63bf54c5379e8f2f83f72fa21b4f1bf5c1168b541ae9599  # [win and (cuda_compiler_version or "").startswith("12")]
+  sha256: 0a70952a00139e8cc60db282a041f4003febf1529f467ee997dc80770dd1faa1  # [linux64 and (cuda_compiler_version or "").startswith("13")]
+  sha256: 849824258db33d850fb68be7d65e7e98375e98dfcbbda93275d124a0ea590dfe  # [aarch64 and (cuda_compiler_version or "").startswith("13")]
+  sha256: 0fa0f02d95b3b00e7c48315d59452d71dffdc8e07a50936faf02cb5b7179c1ca  # [win and (cuda_compiler_version or "").startswith("13")]
 
 build:
-  number: 2
-  skip: true  # [ppc64le or not (cuda_compiler_version or "").startswith("12")]
+  number: 0
+  skip: true  # [ppc64le or not (cuda_compiler_version or "").startswith(("12", "13"))]
   script:   # [win]
     - xcopy include %LIBRARY_INC% /E /I /Y /V  # [win]
     - copy lib\cusparseLt.lib %LIBRARY_LIB%\cusparseLt.lib /Y /V  # [win]
-    - copy lib\cusparseLt.dll %LIBRARY_BIN%\cusparseLt.dll /Y /V  # [win]
+    - copy bin\cusparseLt.dll %LIBRARY_BIN%\cusparseLt.dll /Y /V  # [win]
 requirements:
   build:
     - {{ compiler('c') }}
@@ -115,7 +115,7 @@ outputs:
         # test_load_elf needs the cuSPARSE header & libnvrtc.so
         - libcusparse-dev
         - cuda-nvrtc-dev
-        - cuda-driver-dev        # [linux and (cuda_compiler_version or "").startswith("12")]
+        - cuda-driver-dev        # [linux and (cuda_compiler_version or "").startswith(("12", "13"))]
 
 about:
   home: https://developer.nvidia.com/cusparse
@@ -125,7 +125,8 @@ about:
   summary: "Basic Linear Algebra for Sparse Matrices on NVIDIA GPUs"
   description: |
     NVIDIA cuSPARSELt is a high-performance CUDA library dedicated to general
-    matrix-matrix operations in which at least one operand is a sparse matrix.
+    matrix-matrix operations in which at least one operand is a structured sparse matrix
+    with 50\% sparsity.
     The cuSPARSELt APIs allow flexibility in the algorithm/operation selection,
     epilogue, and matrix characteristics, including memory layout,
     alignment, and data types.

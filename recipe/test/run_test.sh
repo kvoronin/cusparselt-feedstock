@@ -1,6 +1,8 @@
 #!/bin/bash
 set -ex
 
+[[ $target_platform == "linux-64" ]] || exit 0
+
 export CUDA_STUB="$PREFIX/lib/stubs/libcuda.so"
 
 ${GCC} test/test_load_elf.c -std=c99 -Werror -ldl -o test_load_elf

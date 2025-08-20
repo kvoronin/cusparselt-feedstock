@@ -18,7 +18,8 @@ Development: https://developer.nvidia.com/cusparselt/downloads
 Documentation: https://docs.nvidia.com/cuda/cusparselt/index.html
 
 NVIDIA cuSPARSELt is a high-performance CUDA library dedicated to general
-matrix-matrix operations in which at least one operand is a sparse matrix.
+matrix-matrix operations in which at least one operand is a structured sparse matrix
+with 50\% sparsity.
 The cuSPARSELt APIs allow flexibility in the algorithm/operation selection,
 epilogue, and matrix characteristics, including memory layout,
 alignment, and data types.
@@ -64,6 +65,13 @@ Current build status
                 </a>
               </td>
             </tr><tr>
+              <td>linux_64_cuda_compiler_version13.0</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12235&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/cusparselt-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_cuda_compiler_version13.0" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
               <td>linux_aarch64_cuda_compiler_version12.9</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12235&branchName=main">
@@ -71,10 +79,24 @@ Current build status
                 </a>
               </td>
             </tr><tr>
+              <td>linux_aarch64_cuda_compiler_version13.0</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12235&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/cusparselt-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_cuda_compiler_version13.0" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
               <td>win_64_cuda_compiler_version12.9</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12235&branchName=main">
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/cusparselt-feedstock?branchName=main&jobName=win&configuration=win%20win_64_cuda_compiler_version12.9" alt="variant">
+                </a>
+              </td>
+            </tr><tr>
+              <td>win_64_cuda_compiler_version13.0</td>
+              <td>
+                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=12235&branchName=main">
+                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/cusparselt-feedstock?branchName=main&jobName=win&configuration=win%20win_64_cuda_compiler_version13.0" alt="variant">
                 </a>
               </td>
             </tr>

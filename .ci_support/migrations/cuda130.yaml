@@ -1,6 +1,7 @@
 migrator_ts: 1755016036
 __migrator:
   use_local: true
+  paused: true
   operation: key_add
   migration_number:
     1
